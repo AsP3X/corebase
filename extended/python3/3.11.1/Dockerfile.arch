@@ -1,0 +1,22 @@
+FROM zombymediaic/corebase:arch-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+# install dependencies
+RUN pacman -Syu --noconfirm && pacman -S --noconfirm base-devel zlib ncurses gdbm readline libffi
+
+# install specific python version
+ENV PVERSION 3.11.1
+
+RUN cd tmp && \ 
+    wget https://www.python.org/ftp/python/${PVERSION}/Python-${PVERSION}.tgz && \
+    tar zxvf Python-${PVERSION}.tgz && \
+    cd Python-${PVERSION} && \
+    ./configure --prefix=$HOME/opt/python-${PVERSION} && \
+    make && \
+    make install
+
+ENV PATH $HOME/opt/python-${PVERSION}/bin:$PATH
+RUN pacman -Syu --noconfirm && pacman -S --noconfirm python-pip
+
+# clean up
+RUN pacman -Sc --noconfirm
