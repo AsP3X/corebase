@@ -10,14 +10,21 @@ RUN apk add bash
 RUN npm install --global yarn
 
 # install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | sh
+ENV NVM_VERSION v0.33.11
+ENV NODE_VERSION v8.13.0
+ENV NVM_DIR /usr/local/nvm
+RUN mkdir $NVM_DIR
 
-# configure nvm
-RUN echo "export NVM_DIR=\"$HOME/.nvm\"" >> ~/.bashrc
-RUN echo "[ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"  # This loads nvm" >> ~/.bashrc
-RUN echo "[ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\"  # This loads nvm bash_completion" >> ~/.bashrc
+# Download the nvm binary
+RUN apk add --no-cache curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
 
-# display nvm version
-RUN nvm --version
+# Set the NVM_DIR environment variable
+ENV NVM_DIR /usr/local/nvm
 
-# clean up, remove all temporary files
+# Add the nvm script to the PATH
+ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+
+# Load nvm and install the desired version of Node.js
+RUN . $NVM_DIR/nvm.sh && \
+    nvm install $NODE_VERSION
