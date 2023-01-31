@@ -1,0 +1,30 @@
+FROM zombymediaic/corebase:alpine-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+# install dependencies
+RUN apk add nodejs
+RUN apk add npm
+RUN apk add bash
+
+# install yarn
+RUN npm install --global yarn
+
+# install nvm
+ENV NVM_VERSION v0.33.11
+ENV NODE_VERSION v19.5.0
+ENV NVM_DIR /usr/local/nvm
+RUN mkdir $NVM_DIR
+
+# Download the nvm binary
+RUN apk add --no-cache curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
+
+# Set the NVM_DIR environment variable
+ENV NVM_DIR /usr/local/nvm
+
+# Add the nvm script to the PATH
+ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+
+# Load nvm and install the desired version of Node.js
+RUN . $NVM_DIR/nvm.sh && \
+    nvm install $NODE_VERSION
