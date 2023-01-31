@@ -1,0 +1,23 @@
+FROM zombymediaic/corebase:alpine-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+# install dependencies
+RUN apk add nodejs
+RUN apk add npm
+RUN apk add bash
+
+# install yarn
+RUN npm install --global yarn
+
+# install nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | sh
+
+# configure nvm
+RUN echo "export NVM_DIR=\"$HOME/.nvm\"" >> ~/.bashrc
+RUN echo "[ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\"  # This loads nvm" >> ~/.bashrc
+RUN echo "[ -s \"$NVM_DIR/bash_completion\" ] && \. \"$NVM_DIR/bash_completion\"  # This loads nvm bash_completion" >> ~/.bashrc
+
+# display nvm version
+RUN nvm --version
+
+# clean up, remove all temporary files
