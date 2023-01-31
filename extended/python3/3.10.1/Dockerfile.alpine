@@ -1,0 +1,22 @@
+FROM zombymediaic/corebase:alpine-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+# install dependencies
+RUN apk add --update --no-cache build-base zlib-dev ncurses-dev gdbm-dev libnsl-dev openssl-dev readline-dev libffi-dev
+
+# install specific python version
+ENV PVERSION 3.10.1
+
+RUN cd tmp && \ 
+    wget https://www.python.org/ftp/python/${PVERSION}/Python-${PVERSION}.tgz && \
+    tar zxvf Python-${PVERSION}.tgz && \
+    cd Python-${PVERSION} && \
+    ./configure --prefix=$HOME/opt/python-${PVERSION} && \
+    make && \
+    make install
+
+ENV PATH $HOME/opt/python-3.10.1/bin:$PATH
+RUN apk add --update --no-cache py3-pip
+
+# clean up
+RUN rm -rf /var/cache/apk/* /tmp/*
