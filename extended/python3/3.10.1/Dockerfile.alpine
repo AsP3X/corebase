@@ -15,7 +15,7 @@ RUN cd tmp && \
     make && \
     make install
 
-ENV PATH $HOME/opt/python-3.10.1/bin:$PATH
+ENV PATH $HOME/opt/python-${PVERSION}/bin:$PATH
 RUN apk add --update --no-cache py3-pip
 
 # clean up

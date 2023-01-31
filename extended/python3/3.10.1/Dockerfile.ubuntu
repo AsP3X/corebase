@@ -1,8 +1,8 @@
-FROM zombymediaic/corebase:arch-latest
+FROM zombymediaic/corebase:ubuntu-latest
 LABEL org.opencontainers.image.maintainer="AsP3X"
 
 # install dependencies
-RUN pacman -Syu --noconfirm && pacman -S --noconfirm base-devel zlib ncurses gdbm libnss libssl readline libffi
+RUN apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev
 
 # install specific python version
 ENV PVERSION 3.10.1
@@ -16,7 +16,7 @@ RUN cd tmp && \
     make install
 
 ENV PATH $HOME/opt/python-3.10.1/bin:$PATH
-RUN pacman -Syu --noconfirm && pacman -S --noconfirm python-pip
+RUN apt install -y python3-pip
 
 # clean up
-RUN pacman -Sc --noconfirm
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
