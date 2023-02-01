@@ -5,11 +5,7 @@ LABEL org.opencontainers.image.maintainer="AsP3X"
 RUN apt-get update && apt-get upgrade -y
 
 # install dependencies
-RUN apt install -y curl
-RUN apt install -y wget
-RUN apt install -y nano
-RUN apt install -y htop
-RUN apt install -y git
+RUN apt install -y curl wget nano htop git
 
 # clean up the system by removing the apt cache and lists
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
