@@ -3,14 +3,18 @@ LABEL org.opencontainers.image.maintainer="AsP3X"
 
 WORKDIR /tmp
 
-RUN pacman -Syu --noconfirm curl
+ENV JAVA_D_SRC https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.6_10.tar.gz
+ENV JAVA_D_FILE OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.6_10.tar.gz
+ENV JAVA_D_VER 17.0.6+10
 
-RUN curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.6%2B10/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.6_10.tar.gz
+RUN curl -LO ${JAVA_D_SRC}
 
-RUN tar xvzf OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.6_10.tar.gz && \
-    rm OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.6_10.tar.gz
+RUN tar xvzf ${JAVA_D_FILE}
 
-ENV JAVA_HOME /tmp/jdk-17.0.6+10
+ENV JAVA_HOME /tmp/jdk-${JAVA_D_VER}
 ENV PATH "$JAVA_HOME/bin:$PATH"
+
+# clean up
+RUN rm -rf /tmp/* /var/cache/apk/* /var/lib/apt/lists/* /var/tmp/*
 
 WORKDIR /
