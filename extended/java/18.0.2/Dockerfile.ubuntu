@@ -1,0 +1,17 @@
+FROM zombymediaic/corebase:ubuntu-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+WORKDIR /tmp
+
+ENV JAVA_D_SRC https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz
+ENV JAVA_D_FILE OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz
+ENV JAVA_D_VER 18.0.2+1
+
+RUN curl -LO ${JAVA_D_SRC} && \
+    tar xvzf ${JAVA_D_FILE} && \
+    rm ${JAVA_D_FILE}
+
+ENV JAVA_HOME /tmp/jdk-${JAVA_D_VER}
+ENV PATH "$JAVA_HOME/bin:$PATH"
+
+WORKDIR /

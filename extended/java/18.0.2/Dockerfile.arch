@@ -1,0 +1,14 @@
+FROM zombymediaic/corebase:arch-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+WORKDIR /tmp
+
+RUN curl -LO https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz
+
+RUN tar xvzf OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz && \
+    rm OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz
+
+ENV JAVA_HOME /tmp/jdk-18.0.2.1+1
+ENV PATH "$JAVA_HOME/bin:$PATH"
+
+WORKDIR /
