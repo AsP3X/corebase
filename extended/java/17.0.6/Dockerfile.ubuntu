@@ -1,0 +1,17 @@
+FROM zombymediaic/corebase:ubuntu-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+## Installing java17 as openjdk from oracle.com
+RUN mkdir /usr/lib/jvm
+RUN wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
+RUN tar -xvf jdk-17_linux-x64_bin.tar.gz -C /usr/lib/jvm/
+RUN ln -s /usr/lib/jvm/jdk-17 /usr/lib/jvm/jdk-17.0.6
+RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-17.0.6/bin/java 100
+RUN update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-17.0.6/bin/javac 100
+
+RUN update-alternatives --display java
+RUN update-alternatives --display javac
+
+# Clean up
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN rm -rf jdk-17_linux-x64_bin.tar.gz
