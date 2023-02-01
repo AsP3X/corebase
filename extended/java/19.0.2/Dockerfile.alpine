@@ -1,0 +1,14 @@
+FROM zombymediaic/corebase:alpine-latest
+LABEL org.opencontainers.image.maintainer="AsP3X"
+
+WORKDIR /tmp
+
+RUN curl -LO https://github.com/adoptium/temurin19-binaries/releases/download/jdk-19.0.2%2B7/OpenJDK19U-jdk_x64_linux_hotspot_19.0.2_7.tar.gz
+
+RUN tar xvzf OpenJDK19U-jdk_x64_linux_hotspot_19.0.2_7.tar.gz && \
+    rm OpenJDK19U-jdk_x64_linux_hotspot_19.0.2_7.tar.gz
+
+ENV JAVA_HOME /tmp/jdk-19.0.2+7
+ENV PATH "$JAVA_HOME/bin:$PATH"
+
+WORKDIR /
