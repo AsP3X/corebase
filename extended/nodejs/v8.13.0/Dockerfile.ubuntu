@@ -7,6 +7,7 @@ RUN apt install -y npm
 
 # install yarn
 RUN npm install --global yarn
+RUN yarn set version berry
 
 # install nvm
 ENV NVM_VERSION v0.33.11
