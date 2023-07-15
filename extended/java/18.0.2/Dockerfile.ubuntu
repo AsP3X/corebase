@@ -1,4 +1,4 @@
-FROM zombymediaic/corebase:ubuntu-22.04
+FROM zombymediaic/corebase:ubuntu-23.04
 LABEL org.opencontainers.image.maintainer="AsP3X"
 
 WORKDIR /tmp
